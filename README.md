@@ -1,2 +1,52 @@
-# Ip-cheker-Site
-A website that checks IP addresses using Whois, beautifully designed and in Russian.
+# IP Whois Lookup
+
+Одностраничный сайт на FastAPI в чёрно-белой (тёмная/светлая) теме,
+который определяет данные об IP-адресе через WHOIS/RDAP (провайдер, ASN,
+сеть, страна, контакты регистратора).
+
+## Установка и запуск
+
+```bash
+python -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
+
+python main.py
+```
+
+Либо через uvicorn напрямую:
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Открыть в браузере: http://127.0.0.1:8000
+
+## Структура проекта
+
+```
+ip_whois_app/
+├── main.py             # FastAPI backend, эндпоинты /, /api/whois, /api/myip
+├── requirements.txt
+├── templates/
+│   └── index.html      # разметка сайта (шапка, поиск, результаты, разделы)
+├── static/
+│   ├── style.css        # тёмная/светлая тема
+│   └── script.js         # логика формы, переключение темы, рендер результатов
+```
+
+## API
+
+- `GET /api/whois?ip=8.8.8.8` — возвращает JSON с данными WHOIS/RDAP по адресу.
+- `GET /api/myip` — возвращает IP клиента, определённый сервером.
+
+## Важно
+
+- Библиотека `ipwhois` делает реальные сетевые запросы к RDAP-серверам
+  региональных регистраторов (ARIN, RIPE, APNIC, LACNIC, AFRINIC), поэтому
+  серверу, на котором запущено приложение, нужен выход в интернет.
+- Приватные/локальные адреса (`192.168.x.x`, `10.x.x.x`, `127.0.0.1` и т.п.)
+  не имеют публичных WHOIS-данных — сервис вернёт понятную ошибку.
+- Для продакшена рекомендуется добавить rate-limiting (например, `slowapi`),
+  чтобы защититься от злоупотребления публичным эндпоинтом.

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IP Whois Lookup — пробив IP через WHOIS</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="#top" class="logo">Exploit<span>.Net</span></a>
+        <nav class="nav">
+            <a href="#about">О сервисе</a>
+            <a href="#lookup">Проверка IP</a>
+            <a href="#Dorks">Google Dorks</a>
+            <a href="#Email">Email Проверка</a>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
+            <span class="icon icon-sun">☀</span>
+            <span class="icon icon-moon">☾</span>
+        </button>
+    </div>
+</header>
+
+<main>
+    <section id="top" class="hero">
+        <div class="container">
+            <h1>Ищи информацию с помощью нашего инструмента</h1>
+            <p class="subtitle">
+                Получите данные о провайдере,сети,компании,человеке 
+            </p>
+
+            <form id="lookup-form" class="lookup-form" autocomplete="off">
+                <input
+                    type="text"
+                    id="ip-input"
+                    name="ip"
+                    placeholder=""
+                    value="{{ client_ip }}"
+                    required
+                >
+                <button type="submit" class="btn-primary">Проверить IP</button>
+                <button type="button" id="use-my-ip" class="btn-secondary">Мой IP</button>
+            </form>
+
+            <div id="error-box" class="error-box hidden"></div>
+        </div>
+    </section>
+
+    <section id="lookup" class="results-section">
+        <div class="container">
+            <div id="loader" class="loader hidden">Запрашиваем WHOIS-данные…</div>
+
+            <div id="results" class="results-grid hidden">
+
+                <div class="card card-wide">
+                    <h3>Общая информация</h3>
+                    <div class="kv" id="general-info"></div>
+                </div>
+
+                <div class="card">
+                    <h3>ASN / Провайдер</h3>
+                    <div class="kv" id="asn-info"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Сеть (Network)</h3>
+                    <div class="kv" id="network-info"></div>
+                </div>
+
+                <div class="card card-wide">
+                    <h3>Контакты регистратора</h3>
+                    <div class="kv" id="contacts-info"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="info-section">
+        <div class="container">
+            <h2>О сервисе</h2>
+            <p>
+Этот сайт выполняет прямые запросы к базам RDAP/WHOIS через официальные региональные интернет-регистраторы (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC).
+Никакие сторонние коммерческие API не используются — только открытые публичные протоколы, благодаря чему данные максимально точные и актуальные.
+Дополнительно сервис автоматически формирует Google Dorks и поисковые запросы для OSINT-анализа на основе полученной информации. Это позволяет быстро находить связанные публичные упоминания, домены, поддомены и другие открытые источники информации.
+Все сформированные поисковые запросы предназначены для поиска только общедоступной информации.
+
+            </p>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h4>Точность</h4>
+                    <p>Данные берутся напрямую из RDAP-протокола регионального регистратора.</p>
+                </div>
+                <div class="feature">
+                    <h4>Скорость</h4>
+                    <p>Асинхронный FastAPI-бэкенд обрабатывает запрос за секунды.</p>
+                </div>
+                <div class="feature">
+                    <h4>Приватность</h4>
+                    <p>Мы не храним историю ваших запросов на сервере.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="info-section">
+        <div class="container">
+            <h2>Частые вопросы</h2>
+            <details>
+                <summary>Что такое WHOIS/RDAP?</summary>
+                <p>Это открытые протоколы, позволяющие узнать, кому принадлежит IP-адрес или домен: провайдера, страну, диапазон сети и контакты администратора.</p>
+            </details>
+            <details>
+                <summary>Можно ли пробить приватный IP (192.168.x.x)?</summary>
+                <p>Нет, такие адреса используются только внутри локальных сетей и не зарегистрированы ни в одном публичном реестре.</p>
+            </details>
+            <details>
+                <summary>Хранится ли история запросов?</summary>
+                <p>Нет, сервис не сохраняет введённые IP-адреса и результаты запросов.</p>
+            </details>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>&copy; <span id="year"></span> IP Whois Lookup. Сделано на FastAPI.</p>
+    </div>
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
+
+
